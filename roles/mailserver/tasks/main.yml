@@ -11,6 +11,7 @@
     - postfix-doc
     - mariadb-client
     - mariadb-server
+    - python-mysql
     - getmail4
     - rkhunter
     - binutils
