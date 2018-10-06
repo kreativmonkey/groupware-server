@@ -1,0 +1,15 @@
+---
+
+- name: Setup hosts and hostname
+  copy: src={{ item }} dest=/etc/{{ item }} owner=root group=root
+  with_items:
+    - hosts
+    - hostname
+
+- name: Reload hostname
+  command: hostname -F /etc/hostname
+
+- name: Upgrade packages
+  apt:
+    upgrade: dist
+    update_cache: yes
