@@ -1,0 +1,17 @@
+---
+
+- name: Restart postfix
+  systemd:
+    name: postfix
+    state: restarted
+
+- name: Refrech clamav
+  command: freshclam
+  listen: "clamav"
+
+- name: Start clamav
+  systemd:
+    name: clamav
+    state: started
+    enabled: true
+  listen: "clamav"

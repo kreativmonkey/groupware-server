@@ -1,0 +1,70 @@
+- name: Deinstall sendmail
+  apt:
+    name: sendmail
+    state: absent
+
+- name: Install dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - postfix
+    - postfix-mysql
+    - postfix-doc
+    - mariadb-client
+    - mariadb-server
+    - getmail4
+    - rkhunter
+    - binutils
+    - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-mysql
+    - dovecot-sieve
+    - dovecot-lmtpd
+    - amavisd-new
+    - spamassassin
+    - clamav
+    - clamav-daemon
+    - clamav-docs
+    - daemon
+    - libio-string-perl
+    - libio-socket-ssl-perl
+    - libnet-ident-perl
+    - libnet-dns-perl
+    - mailman
+    - libruby
+    - aptitude
+    - libnet-ldap-perl
+    - libconvert-asn1-perl
+    - javascript-common
+    - libjs-jquery-mousewheel
+    - php-net-sieve
+    - tinymce
+    - libnet-rblclient-perl
+    - libparse-syslog-perl
+    - arj
+    - nomarch
+    - lzop
+    - cabextract
+    - apt-listchanges
+    - libnet-ldap-perl
+    - libauthen-sasl-perl
+
+- name: Stop spamassasin and deaktivate autostart
+  systemd:
+    name: spamassasin
+    state: stopped
+    enabled: false
+
+- name: Change supplementard groups from clamav
+  lineinfile:
+    path: /etc/clamav/clamd.conf
+    regexp: '^AllowSupplementaryGroups'
+    line: AllowSupplementaryGroups true
+  notify:
+    - clamav
+
+- name: Configure Postfix
+  copy:
+    src: etc-postfix-master.cf
+    dest: /etc/postfix/master.cf
+  notify:
+    - Restart postfix
