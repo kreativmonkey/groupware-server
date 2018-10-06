@@ -1,0 +1,20 @@
+- name: Install tools
+  apt: name={{ item }} state=present
+  update_cache: yes
+  with_items:
+    - ssh
+    - vim
+    - tmux
+    - screen
+    - mc
+    - unzip
+    - bzip2
+    - zip
+    - sudo
+    - ntp
+    - ntpdate
+    - bind9
+    - dnsutils
+    - haveged
+    - fail2ban
+    - ufw
