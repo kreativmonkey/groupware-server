@@ -1,0 +1,8 @@
+---
+
+- hosts: groupware-server
+  user: root
+  roles:
+    - common
+    - tools
+    - mailserver
